@@ -3,14 +3,15 @@ import { Validate } from "../utils/validate";
 import Header from "./Header";
 const Login = () => {
   const [checksign, setchecksign] = useState(true);
+  const [errorMessage, seterrorMessage] = useState(null);
   const email = useRef(null);
   const password = useRef(null);
+  const name = useRef(null);
   const handledClick = () => {
-    // console.log(email.current.value, password.current.value);
-    //  console.log(Validate(email.current.value,password.current.value))
-    const message=Validate(email.current.value, password.current.value);
-    console.log(message);
+    const message = Validate(email.current.value, password.current.value,name?.current?.value);
+    seterrorMessage(message);
   };
+
   const togglebtn = () => {
     if (checksign === true) {
       setchecksign(false);
@@ -38,6 +39,7 @@ const Login = () => {
           ""
         ) : (
           <input
+            ref={name}
             className="py-3 text-center my-3 mx-9 w-[80%] focus:placeholder-transparent focus:outline-none bg-gray-500 "
             type="text"
             placeholder="Full Name"
@@ -55,6 +57,9 @@ const Login = () => {
           type="password"
           placeholder="Password"
         ></input>
+        <div className="errorMsg text-red-600 mx-9 w-[50%] cursor-pointer w-1/2">
+          {errorMessage}
+        </div>
         <button
           className="p-3 text-center my-4 mx-9 w-[80%] text-white font-bold bg-red-600"
           onClick={handledClick}
